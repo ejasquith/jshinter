@@ -28,7 +28,7 @@ function displayStatus(data) {
 }
 
 async function postForm(e) {
-    const form = new FormData($('#checksform')[0]);
+    const form = processOptions(new FormData($('#checksform')[0]));
     const response = await fetch(API_URL, {
                                  method: "POST",
                                  headers: {
@@ -62,4 +62,16 @@ function displayErrors(data) {
     $('#resultsModalTitle').html(`JSHint Results for ${data.file}`);
     $('#results-content').html(results);
     resultsModal.show();
+}
+
+function processOptions(form) {
+    let optArray = [];
+    for (let entry of form.entries) {
+        if (entry[0] === 'options') {
+            optArray.push(entry[1]);
+        }
+    }
+    form.delete('options');
+    form.append('options', optArray.join());
+    return form;
 }
