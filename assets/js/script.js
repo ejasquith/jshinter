@@ -1,4 +1,4 @@
-const API_KEY = 'Bbi_CRjUUStlYP_44bhcnXtDNBc';
+const API_KEY = 'aBbi_CRjUUStlYP_44bhcnXtDNBc';
 const API_URL = 'https://ci-jshint.herokuapp.com/api';
 let resultsModal;
 
@@ -17,6 +17,7 @@ async function getStatus(e) {
     if (response.ok) {
         displayStatus(data);
     } else {
+        displayException(data);
         throw new Error(data.error);
     }
 }
@@ -42,6 +43,7 @@ async function postForm(e) {
     if (response.ok) {
         displayErrors(data);
     } else {
+        displayException(data);
         throw new Error(data.error);
     }
 }
@@ -66,7 +68,7 @@ function displayErrors(data) {
 
 function processOptions(form) {
     let optArray = [];
-    for (let entry of form.entries) {
+    for (let entry of form.entries()) {
         if (entry[0] === 'options') {
             optArray.push(entry[1]);
         }
@@ -74,4 +76,14 @@ function processOptions(form) {
     form.delete('options');
     form.append('options', optArray.join());
     return form;
+}
+
+function displayException(e) {
+    let results = `<div>The API returned status code <span class="err-status-code">${e.status_code}</span></div>`;
+    results += `<div>Error number: <span class="err-num">${e.error_no}</span></div>`;
+    results += `<div>Error text: <span class="err-text">${e.error}</span></div>`;
+
+    $('#resultsModalTitle').html('An Exception Occurred');
+    $('#results-content').html(results);
+    resultsModal.show();
 }
