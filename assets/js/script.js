@@ -1,4 +1,4 @@
-const API_KEY = 'aBbi_CRjUUStlYP_44bhcnXtDNBc';
+const API_KEY = 'Bbi_CRjUUStlYP_44bhcnXtDNBc';
 const API_URL = 'https://ci-jshint.herokuapp.com/api';
 let resultsModal;
 
